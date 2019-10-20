@@ -14,7 +14,7 @@ from six import text_type
 import six
 import pexpect
 import shutil
-import signal
+# import signal
 import os
 logger = init_logger.init_logger(logging.getLogger(init_logger.LOGGER_NAME))
 
@@ -95,8 +95,8 @@ class UnixProcessHandler(object):
         - It takes the result of Juman++
         - This function monitors time which takes for getting the result.
         """
-        signal.signal(signal.SIGALRM, self.__notify_handler)
-        signal.alarm(self.timeout_second)
+        # signal.signal(signal.SIGALRM, self.__notify_handler)
+        # signal.alarm(self.timeout_second)
         self.process_analyzer.sendline(input_string)
         buffer = ""
         while True:
@@ -106,15 +106,15 @@ class UnixProcessHandler(object):
                 continue
             elif line_string.strip() == self.pattern:
                 buffer += line_string
-                signal.alarm(0)
+                # signal.alarm(0)
                 return buffer
             else:
                 buffer += line_string
 
-    def __notify_handler(self, signum, frame):
-        raise ProcessDownException("""It takes longer time than {time} seconds. You're able to try, 
-        1. Change your setting of 'timeout_second' parameter
-        2. Run restart_process() method when the exception happens.""".format(**{"time": self.timeout_second}))
+    # def __notify_handler(self, signum, frame):
+    #     raise ProcessDownException("""It takes longer time than {time} seconds. You're able to try, 
+    #     1. Change your setting of 'timeout_second' parameter
+    #     2. Run restart_process() method when the exception happens.""".format(**{"time": self.timeout_second}))
 
     def query(self, input_string):
         # type: (text_type)->text_type
